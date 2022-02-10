@@ -28,12 +28,12 @@ public class ProductDaoImpl implements ProductDao {
 
     private final String TABLE = "product";
 
-    private final String CREATE_DATE = "createDate";
-    private final String CREATE_BY = "createBy";
-    private final String UPDATE_DATE = "updateDate";
-    private final String UPDATE_BY = "updateBy";
+    private final String CREATE_DATE = "create_date";
+    private final String CREATE_BY = "create_by";
+    private final String UPDATE_DATE = "update_date";
+    private final String UPDATE_BY = "update_by";
 
-    private final String PRODUCT_ID = "productId";
+    private final String PRODUCT_ID = "product_id";
     private final String NAME = "name";
     private final String PRICE = "price";
     private final String IMAGE = "image";
@@ -98,7 +98,46 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void update(Product updateObject) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder sql = new StringBuilder();
+        ArrayList<Object> parameters = new ArrayList<>();
+        try {
+            sql.append(" update ").append(TABLE).append(" set ")
+                    .append(UPDATE_DATE).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                    .append(UPDATE_BY).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                    .append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                    .append(PRICE).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                    .append(IMAGE).append(DatabaseConstant.EQUAL_QUESTION_MARK)
+                    .append(DatabaseConstant.WHERE)
+                    .append(NAME)
+                    .append(DatabaseConstant.EQUAL_QUESTION_MARK);;
+
+            parameters.add(updateObject.getUpdateDate());
+            parameters.add(updateObject.getUpdateBy());
+            parameters.add(updateObject.getName());
+            parameters.add(updateObject.getPrice());
+            parameters.add(updateObject.getImage());
+            parameters.add(updateObject.getName());
+
+            JdbcTemplate.update(sql.toString(), parameters.toArray());
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public Product findByName(String name) throws Exception {
+        Product product = new Product();
+        StringBuilder sql = new StringBuilder();
+        try {
+            sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE)
+                    .append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
+            product = JdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, name);
+        } catch (Exception e) {
+            throw e;
+        }
+        return product;
     }
 
 }

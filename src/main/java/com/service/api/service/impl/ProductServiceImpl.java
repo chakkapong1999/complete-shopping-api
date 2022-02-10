@@ -7,7 +7,9 @@ package com.service.api.service.impl;
 import com.service.api.dao.ProductDao;
 import com.service.api.domain.Product;
 import com.service.api.model.request.ProductRequest;
+import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.ProductResponse;
+import com.service.api.model.response.UpdateProductResponse;
 import com.service.api.service.ProductService;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,36 @@ public class ProductServiceImpl implements ProductService {
             throw e;
         }
         return response;
+    }
+
+    @Override
+    public UpdateProductResponse updateProduct(UpdateProductRequest request) throws Exception {
+        UpdateProductResponse response = new UpdateProductResponse();
+        Product updateProduct = new Product();
+        Date currentDate = new Date();
+        try {
+            Product product = productDao.findByName(request.getName());
+            if (null != product) {
+                updateProduct.setUpdateDate(currentDate);
+                updateProduct.setUpdateBy("admin");
+                updateProduct.setName(request.getName());
+                updateProduct.setPrice(request.getPrice());
+                updateProduct.setImage(request.getImage());
+                
+                productDao.update(updateProduct);
+                
+                response.setSuccess(Boolean.TRUE);
+                response.setName(request.getName());
+                response.setMessage("Update Success");
+            } else {
+                response.setSuccess(Boolean.FALSE);
+                response.setName(request.getName());
+                response.setMessage("Update not Success");
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return  response;
     }
     
 }

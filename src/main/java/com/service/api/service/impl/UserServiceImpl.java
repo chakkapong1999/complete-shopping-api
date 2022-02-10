@@ -6,7 +6,9 @@ package com.service.api.service.impl;
 
 import com.service.api.dao.UserDao;
 import com.service.api.domain.User;
+import com.service.api.model.request.ChangePasswordRequest;
 import com.service.api.model.request.UserRequest;
+import com.service.api.model.response.ChangePasswordResponse;
 import com.service.api.model.response.UserResponse;
 import com.service.api.service.UserService;
 import java.util.Date;
@@ -36,16 +38,45 @@ public class UserServiceImpl implements UserService {
 //                response.setSuccess(Boolean.FALSE);
 //                response.setUsername("");
 //            } else {
-                userInsert.setCreateBy(request.getUsername());
-                userInsert.setCreateDate(currentDate);
-                userInsert.setUsername(request.getUsername());
-                userInsert.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+            userInsert.setCreateBy(request.getUsername());
+            userInsert.setCreateDate(currentDate);
+            userInsert.setUsername(request.getUsername());
+            userInsert.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 
-                userDao.insert(userInsert);
+            userDao.insert(userInsert);
+
+            response.setSuccess(Boolean.TRUE);
+            response.setUsername(request.getUsername());
+//            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return response;
+    }
+
+    @Override
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request) throws Exception {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        ChangePasswordResponse response = new ChangePasswordResponse();
+        Date currentDate = new Date();
+        User updateUser = new User();
+        try {
+            User user = userDao.findByUsername(request.getUsername());
+            if (bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
+                updateUser.setUsername(request.getUsername());
+                updateUser.setPassword(bCryptPasswordEncoder.encode(request.getNewPassword()));
+                updateUser.setUpdateDate(currentDate);
+                updateUser.setUpdateBy(request.getUsername());
+                userDao.update(updateUser);
 
                 response.setSuccess(Boolean.TRUE);
                 response.setUsername(request.getUsername());
-//            }
+                response.setMessage("Change Password Success");
+            } else {
+                response.setSuccess(Boolean.FALSE);
+                response.setUsername(request.getUsername());
+                response.setMessage("Incorrect Password");
+            }
         } catch (Exception e) {
             throw e;
         }

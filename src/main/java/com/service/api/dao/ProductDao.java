@@ -14,6 +14,7 @@ import java.util.List;
 public interface ProductDao {
     
     List<Product> findAll() throws Exception;
+    Product findByName(String name) throws Exception;
     void insert (Product insertObject) throws Exception;
     void update (Product updateObject) throws Exception;
 }

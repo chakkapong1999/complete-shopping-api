@@ -4,7 +4,9 @@
  */
 package com.service.api.controller;
 
+import com.service.api.model.request.ChangePasswordRequest;
 import com.service.api.model.request.UserRequest;
+import com.service.api.model.response.ChangePasswordResponse;
 import com.service.api.model.response.UserResponse;
 import com.service.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,13 @@ public class UserController extends UserControllerValidator{
     public Object createUser (@RequestBody UserRequest request) throws Exception {
         createUserValidation(request);
         UserResponse response = userService.createUser(request);
+        return response;
+    }
+    
+    @PostMapping("change-password")
+    public Object changePassword(@RequestBody ChangePasswordRequest request) throws Exception {
+        changePasswordValidation(request);
+        ChangePasswordResponse response = userService.changePassword(request);
         return response;
     }
 }
