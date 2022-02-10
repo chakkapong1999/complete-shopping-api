@@ -5,6 +5,7 @@
 package com.service.api.controller;
 
 import com.service.api.model.request.ProductRequest;
+import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.utils.ObjectValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +18,7 @@ public class ProductControllerValidator {
     @Autowired
     private ObjectValidatorUtils validator;
 
-    protected void addProductValidation(ProductRequest request) throws Exception {
+    protected void productValidation(ProductRequest request) throws Exception {
         if (!validator.validateMandatory(request.getName())) {
             throw new Exception("Name of Product is null");
         }

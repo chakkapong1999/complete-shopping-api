@@ -27,12 +27,12 @@ public class UserDaoImpl implements UserDao {
 
     private final String TABLE = "user";
 
-    private final String CREATE_DATE = "createDate";
-    private final String CREATE_BY = "createBy";
-    private final String UPDATE_DATE = "updateDate";
-    private final String UPDATE_BY = "updateBy";
+    private final String CREATE_DATE = "create_date";
+    private final String CREATE_BY = "create_by";
+    private final String UPDATE_DATE = "update_date";
+    private final String UPDATE_BY = "update_by";
 
-    private final String USER_ID = "userId";
+    private final String USER_ID = "user_id";
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
 
@@ -101,7 +101,28 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User updateObject) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder sql = new StringBuilder();
+        ArrayList<Object> parameters = new ArrayList<>();
+
+        try {
+            sql.append(" update ").append(TABLE).append(" set ")
+                    .append(UPDATE_DATE).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                    .append(UPDATE_BY).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                    .append(PASSWORD).append(DatabaseConstant.EQUAL_QUESTION_MARK)
+                    .append(DatabaseConstant.WHERE)
+                    .append(USERNAME)
+                    .append(DatabaseConstant.EQUAL_QUESTION_MARK);
+
+            parameters.add(updateObject.getUpdateDate());
+            parameters.add(updateObject.getUpdateBy());
+            parameters.add(updateObject.getPassword());
+            parameters.add(updateObject.getUsername());
+            JdbcTemplate.update(sql.toString(), parameters.toArray());
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
 }

@@ -4,7 +4,9 @@
  */
 package com.service.api.service;
 
+import com.service.api.model.request.ChangePasswordRequest;
 import com.service.api.model.request.UserRequest;
+import com.service.api.model.response.ChangePasswordResponse;
 import com.service.api.model.response.UserResponse;
 
 /**
@@ -14,5 +16,6 @@ import com.service.api.model.response.UserResponse;
 public interface UserService {
     
     UserResponse createUser(UserRequest request) throws Exception;
+    ChangePasswordResponse changePassword (ChangePasswordRequest request) throws Exception;
     
 }
