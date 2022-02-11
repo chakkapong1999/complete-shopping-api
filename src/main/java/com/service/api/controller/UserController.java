@@ -31,6 +31,7 @@ public class UserController extends UserControllerValidator{
 
     @PostMapping("/login")
     public Object login(@RequestBody LoginRequest request) throws Exception {
+        loginValidation(request);
         LoginResponse response = loginService.login(request);
         return response;
     }
