@@ -33,21 +33,23 @@ public class UserServiceImpl implements UserService {
         User userInsert = new User();
         Date currentDate = new Date();
         try {
-//            User checkUser = userDao.findByUsername(request.getUsername());
-//            if (null != checkUser) {
-//                response.setSuccess(Boolean.FALSE);
-//                response.setUsername("");
-//            } else {
-            userInsert.setCreateBy(request.getUsername());
-            userInsert.setCreateDate(currentDate);
-            userInsert.setUsername(request.getUsername());
-            userInsert.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+            User checkUser = userDao.findByUsername(request.getUsername());
+            if (null != checkUser) {
+                response.setSuccess(Boolean.FALSE);
+                response.setUsername(request.getUsername());
+                response.setMessage("This username is already used.");
+            } else {
+                userInsert.setCreateBy(request.getUsername());
+                userInsert.setCreateDate(currentDate);
+                userInsert.setUsername(request.getUsername());
+                userInsert.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 
-            userDao.insert(userInsert);
+                userDao.insert(userInsert);
 
-            response.setSuccess(Boolean.TRUE);
-            response.setUsername(request.getUsername());
-//            }
+                response.setSuccess(Boolean.TRUE);
+                response.setUsername(request.getUsername());
+                response.setMessage("Create user success.");
+            }
         } catch (Exception e) {
             throw e;
         }
