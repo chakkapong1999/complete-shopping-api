@@ -31,7 +31,7 @@ public class Interceptor implements HandlerInterceptor {
 
         if(request.getHeader("Authorization") == null) return false;
         else {
-            String token = request.getHeader("Authorization").split(" ")[1];
+            String token = request.getHeader("Authorization");
             try {
                 DecodedJWT jwt = JWT.decode(token);
                 String id = jwt.getClaim("userId").asString();

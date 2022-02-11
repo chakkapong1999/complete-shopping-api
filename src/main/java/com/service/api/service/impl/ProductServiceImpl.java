@@ -11,6 +11,8 @@ import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.ProductResponse;
 import com.service.api.model.response.UpdateProductResponse;
 import com.service.api.service.ProductService;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,13 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public List<Product> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Product> products = new ArrayList<>();
+        try{
+            products = productDao.findAll();
+        } catch (Exception e) {
+            throw e;
+        }
+        return products;
     }
     
     @Override
@@ -47,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
             
             response.setSuccess(Boolean.TRUE);
             response.setName(request.getName());
+            response.setMessage("Add product success.");
         } catch (Exception e) {
             throw e;
         }
@@ -82,5 +91,19 @@ public class ProductServiceImpl implements ProductService {
         }
         return  response;
     }
-    
+
+    @Override
+    public ProductResponse deleteProduct(ProductRequest request) throws Exception {
+        ProductResponse response = new ProductResponse();
+        try{
+            response.setMessage("Delete success.");
+            response.setName(request.getName());
+            response.setSuccess(Boolean.TRUE);
+            productDao.delete(request.getName());
+        } catch (Exception e) {
+            throw e;
+        }
+        return response;
+    }
+
 }

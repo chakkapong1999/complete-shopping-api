@@ -4,16 +4,16 @@
  */
 package com.service.api.controller;
 
+import com.service.api.domain.Product;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.ProductResponse;
 import com.service.api.model.response.UpdateProductResponse;
 import com.service.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *
@@ -24,6 +24,19 @@ public class ProductController extends ProductControllerValidator {
 
     @Autowired
     private ProductService productService;
+
+    @DeleteMapping("/products")
+    public Object deleteProduct(@RequestBody ProductRequest request) throws Exception {
+        deleteProductValidation(request);
+        ProductResponse response = productService.deleteProduct(request);
+        return response;
+    }
+
+    @GetMapping("/products")
+    public List<Product> findAll() throws Exception {
+        List<Product> response = productService.getAll();
+        return response;
+    }
 
     @PostMapping("/products")
     public Object addProduct(@RequestBody ProductRequest request) throws Exception {
