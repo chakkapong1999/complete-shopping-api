@@ -4,7 +4,9 @@
  */
 package com.service.api.service.impl;
 
+import com.service.api.dao.InventoryDao;
 import com.service.api.dao.ProductDao;
+import com.service.api.domain.Inventory;
 import com.service.api.domain.Product;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
@@ -27,7 +29,10 @@ public class ProductServiceImpl implements ProductService {
     
     @Autowired
     private ProductDao productDao;
-    
+
+    @Autowired
+    private InventoryDao inventoryDao;
+
     @Override
     public List<Product> getAll() throws Exception {
         List<Product> products = new ArrayList<>();
@@ -41,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public ProductResponse addProduct(ProductRequest request) throws Exception {
+        Inventory inventory = new Inventory();
         ProductResponse response = new ProductResponse();
         Date currentDate = new Date();
         Product insertProduct = new Product();
@@ -52,6 +58,13 @@ public class ProductServiceImpl implements ProductService {
             insertProduct.setPrice(request.getPrice());
             insertProduct.setImage(request.getImage());
             productDao.insert(insertProduct);
+
+            Product find = productDao.findByName(insertProduct.getName());
+            inventory.setCreateBy("admin");
+            inventory.setCreateDate(currentDate);
+            inventory.setProductId(find.getProductId());
+            inventory.setQuantity(20);
+            inventoryDao.insert(inventory);
             
             response.setSuccess(Boolean.TRUE);
             response.setName(request.getName());
@@ -99,6 +112,9 @@ public class ProductServiceImpl implements ProductService {
             response.setMessage("Delete success.");
             response.setName(request.getName());
             response.setSuccess(Boolean.TRUE);
+
+            Product delete = productDao.findByName(request.getName());
+            inventoryDao.delete(delete.getProductId());
             productDao.delete(request.getName());
         } catch (Exception e) {
             throw e;
