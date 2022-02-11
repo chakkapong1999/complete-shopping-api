@@ -30,4 +30,10 @@ public class ProductControllerValidator {
         }
     }
 
+    protected void deleteProductValidation(ProductRequest request) throws Exception {
+        if (!validator.validateMandatory(request.getName())) {
+            throw new Exception("Name of Product is null");
+        }
+    }
+
 }

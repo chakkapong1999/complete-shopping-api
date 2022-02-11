@@ -8,7 +8,7 @@ package com.service.api.model.response;
  *
  * @author Chakkapong
  */
-public class LoginResponse {
+public class LoginResponse extends BaseResponse {
     
     private Boolean success;
     private String username;

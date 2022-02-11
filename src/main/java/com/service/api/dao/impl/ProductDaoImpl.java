@@ -16,6 +16,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
+
 /**
  *
  * @author Chakkapong
@@ -56,7 +58,17 @@ public class ProductDaoImpl implements ProductDao {
     @Override
 
     public List<Product> findAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder sql = new StringBuilder();
+        List<Product> products = new ArrayList<>();
+        try {
+            sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE_0_EQUAL_0);
+            products = JdbcTemplate.query(sql.toString(),ROW_MAPPER);
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+        return products;
     }
 
     @Override
@@ -124,6 +136,21 @@ public class ProductDaoImpl implements ProductDao {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    public void delete(String name) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        try{
+            sql.append(" delete from ").append(TABLE).append(DatabaseConstant.WHERE).append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
+            JdbcTemplate.update(sql.toString(),name);
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+
+
     }
 
     @Override
