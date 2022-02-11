@@ -4,13 +4,14 @@
  */
 package com.service.api.controller;
 
+import com.service.api.constant.ExceptionConstant;
 import com.service.api.model.request.ChangePasswordRequest;
+import com.service.api.model.request.LoginRequest;
 import com.service.api.model.request.UserRequest;
 import com.service.api.utils.ObjectValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
  * @author Chakkapong
  */
 public class UserControllerValidator {
@@ -19,23 +20,24 @@ public class UserControllerValidator {
     private ObjectValidatorUtils validator;
 
     protected void createUserValidation(UserRequest request) throws Exception {
-        if (!validator.validateMandatory(request.getUsername())) {
-            throw new Exception("Username is null");
-        }
-        if (!validator.validateMandatory(request.getPassword())) {
-            throw new Exception("Password is null");
+        if (!validator.validateMandatory(request.getUsername())
+                || !validator.validateMandatory(request.getPassword())) {
+            throw new Exception(ExceptionConstant.REQUIRED);
         }
     }
 
     protected void changePasswordValidation(ChangePasswordRequest request) throws Exception {
-        if (!validator.validateMandatory(request.getUsername())) {
-            throw new Exception("Username is null");
+        if (!validator.validateMandatory(request.getUsername())
+                || !validator.validateMandatory(request.getPassword())
+                || !validator.validateMandatory(request.getNewPassword())) {
+            throw new Exception(ExceptionConstant.REQUIRED);
         }
-        if (!validator.validateMandatory(request.getPassword())) {
-            throw new Exception("Password is null");
-        }
-        if (!validator.validateMandatory(request.getNewPassword())) {
-            throw new Exception("New Password is null");
+
+    }
+
+    protected void loginValidation(LoginRequest request) throws Exception {
+        if (!validator.validateMandatory(request.getUsername()) || !validator.validateMandatory(request.getPassword())) {
+            throw new Exception(ExceptionConstant.REQUIRED);
         }
     }
 
