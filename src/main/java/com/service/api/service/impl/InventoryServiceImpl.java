@@ -40,7 +40,9 @@ public class InventoryServiceImpl implements InventoryService {
             response.setMessage("Update inventory success.");
             response.setProductId(request.getId());
         } catch (Exception e) {
-            throw e;
+            response.setProductId(request.getId());
+            response.setSuccess(false);
+            response.setMessage("Error while update inventory.");
         }
         return response;
     }

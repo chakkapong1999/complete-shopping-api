@@ -94,13 +94,11 @@ public class ProductServiceImpl implements ProductService {
                 response.setSuccess(Boolean.TRUE);
                 response.setName(request.getName());
                 response.setMessage("Update Success");
-            } else {
-                response.setSuccess(Boolean.FALSE);
-                response.setName(request.getName());
-                response.setMessage("Update not Success");
             }
         } catch (Exception e) {
-            throw e;
+            response.setSuccess(Boolean.FALSE);
+            response.setName(request.getName());
+            response.setMessage("Error while update product.");
         }
         return  response;
     }
@@ -109,15 +107,17 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse deleteProduct(ProductRequest request) throws Exception {
         ProductResponse response = new ProductResponse();
         try{
-            response.setMessage("Delete success.");
-            response.setName(request.getName());
-            response.setSuccess(Boolean.TRUE);
-
             Product delete = productDao.findByName(request.getName());
             inventoryDao.delete(delete.getProductId());
             productDao.delete(request.getName());
+
+            response.setMessage("Delete success.");
+            response.setName(request.getName());
+            response.setSuccess(Boolean.TRUE);
         } catch (Exception e) {
-            throw e;
+            response.setMessage("Error while delete product.");
+            response.setName(request.getName());
+            response.setSuccess(Boolean.FALSE);
         }
         return response;
     }

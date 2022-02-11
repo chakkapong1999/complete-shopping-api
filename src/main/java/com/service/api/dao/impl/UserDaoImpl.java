@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE).append(USERNAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             user = JdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, username);
         } catch (DataAccessException e) {
-            throw e;
+            return null;
         } catch (Exception e) {
             throw e;
         }
