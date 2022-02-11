@@ -33,7 +33,7 @@ public class InventoryDaoImpl implements InventoryDao {
     private final String ID = "product_id";
     private final String QUANTITY = "quantity";
 
-    private RowMapper<Inventory> ROW_MAPPER = (ResultSet result, int rowNum) -> {
+    private final RowMapper<Inventory> ROW_MAPPER = (ResultSet result, int rowNum) -> {
         Inventory inventory = new Inventory();
 
         inventory.setCreateDate(result.getTimestamp(CREATE_DATE));
