@@ -29,7 +29,7 @@ public class UserController extends UserControllerValidator{
     @Autowired
     private LoginService loginService;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public Object login(@RequestBody LoginRequest request) throws Exception {
         LoginResponse response = loginService.login(request);
         return response;
@@ -42,7 +42,7 @@ public class UserController extends UserControllerValidator{
         return response;
     }
     
-    @PostMapping("change-password")
+    @PostMapping("/change-password")
     public Object changePassword(@RequestBody ChangePasswordRequest request) throws Exception {
         changePasswordValidation(request);
         ChangePasswordResponse response = userService.changePassword(request);
