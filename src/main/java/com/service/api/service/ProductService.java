@@ -5,6 +5,7 @@
 package com.service.api.service;
 
 import com.service.api.domain.Product;
+import com.service.api.domain.vo.ProductVO;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.BaseResponse;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author Chakkapong
  */
 public interface ProductService {
-    List<Product> getAll() throws Exception;
+    List<ProductVO> getAll() throws Exception;
     ProductResponse addProduct(ProductRequest request) throws Exception;
     UpdateProductResponse updateProduct(UpdateProductRequest request) throws Exception;
     ProductResponse deleteProduct(ProductRequest request) throws Exception;

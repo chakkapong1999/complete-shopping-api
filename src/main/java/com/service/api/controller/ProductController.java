@@ -4,7 +4,7 @@
  */
 package com.service.api.controller;
 
-import com.service.api.domain.Product;
+import com.service.api.domain.vo.ProductVO;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.ProductResponse;
@@ -33,8 +33,8 @@ public class ProductController extends ProductControllerValidator {
     }
 
     @GetMapping("/products")
-    public List<Product> findAll() throws Exception {
-        List<Product> response = productService.getAll();
+    public List<ProductVO> findAll() throws Exception {
+        List<ProductVO> response = productService.getAll();
         return response;
     }
 
