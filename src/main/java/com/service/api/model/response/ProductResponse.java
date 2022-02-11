@@ -8,7 +8,7 @@ package com.service.api.model.response;
  *
  * @author Chakkapong
  */
-public class ProductResponse {
+public class ProductResponse extends BaseResponse{
     
     private Boolean success;
     private String name;
