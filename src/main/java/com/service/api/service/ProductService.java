@@ -19,6 +19,7 @@ import java.util.List;
  */
 public interface ProductService {
     List<ProductVO> getAll() throws Exception;
+    List<ProductVO> getForPaging(Integer currentPage, Integer perPage) throws Exception;
     ProductResponse addProduct(ProductRequest request) throws Exception;
     UpdateProductResponse updateProduct(UpdateProductRequest request) throws Exception;
     ProductResponse deleteProduct(ProductRequest request) throws Exception;

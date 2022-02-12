@@ -72,6 +72,24 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public List<Product> findPaging(Integer currentPage, Integer perPage) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        List<Product> products = new ArrayList<>();
+        try {
+            sql.append(" select * from ").append(TABLE)
+                    .append(DatabaseConstant.ORDER_BY).append(PRODUCT_ID)
+                    .append(" limit ").append(DatabaseConstant.SIGN_QUESTION_MARK)
+                    .append(" offset ").append(DatabaseConstant.SIGN_QUESTION_MARK);
+            products = jdbcTemplate.query(sql.toString(), ROW_MAPPER, perPage, currentPage);
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+        return products;
+    }
+
+    @Override
     public void insert(Product insertObject) throws Exception {
         StringBuilder sql = new StringBuilder();
         ArrayList<Object> parameters = new ArrayList<>();

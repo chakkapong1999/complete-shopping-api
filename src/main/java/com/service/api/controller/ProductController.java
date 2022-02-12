@@ -25,6 +25,12 @@ public class ProductController extends ProductControllerValidator {
     @Autowired
     private ProductService productService;
 
+    @GetMapping("/products/page")
+    public List<ProductVO> getForPaging(@RequestParam (value = "current") Integer currentPage, @RequestParam (value = "limit" ,defaultValue = "8") Integer perPage) throws Exception {
+        List<ProductVO> response = productService.getForPaging(currentPage,perPage);
+        return response;
+    }
+
     @DeleteMapping("/products")
     public Object deleteProduct(@RequestBody ProductRequest request) throws Exception {
         deleteProductValidation(request);
