@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 public class UserDaoImpl implements UserDao {
 
     @Autowired
-    private JdbcTemplate JdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     private final String TABLE = "user";
 
@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     private final String USERNAME = "username";
     private final String PASSWORD = "password";
 
-    private RowMapper<User> ROW_MAPPER = (ResultSet result, int rowNum) -> {
+    private final RowMapper<User> ROW_MAPPER = (ResultSet result, int rowNum) -> {
         User user = new User();
         user.setCreateDate(result.getTimestamp(CREATE_DATE));
         user.setCreateBy(result.getString(CREATE_BY));
@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
         User user = new User();
         try {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE).append(USERNAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
-            user = JdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, username);
+            user = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, username);
         } catch (DataAccessException e) {
             return null;
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class UserDaoImpl implements UserDao {
             parameters.add(insertObject.getUsername());
             parameters.add(insertObject.getPassword());
 
-            JdbcTemplate.update(sql.toString(), parameters.toArray());
+            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class UserDaoImpl implements UserDao {
             parameters.add(updateObject.getUpdateBy());
             parameters.add(updateObject.getPassword());
             parameters.add(updateObject.getUsername());
-            JdbcTemplate.update(sql.toString(), parameters.toArray());
+            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {

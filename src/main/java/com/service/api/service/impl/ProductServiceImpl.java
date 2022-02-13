@@ -8,6 +8,7 @@ import com.service.api.dao.InventoryDao;
 import com.service.api.dao.ProductDao;
 import com.service.api.domain.Inventory;
 import com.service.api.domain.Product;
+import com.service.api.domain.vo.ProductVO;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.ProductResponse;
@@ -34,16 +35,45 @@ public class ProductServiceImpl implements ProductService {
     private InventoryDao inventoryDao;
 
     @Override
-    public List<Product> getAll() throws Exception {
-        List<Product> products = new ArrayList<>();
+    public List<ProductVO> getAll() throws Exception {
+        List<ProductVO> response = new ArrayList<>();
         try{
-            products = productDao.findAll();
+            List<Product> products = productDao.findAll();
+            for (Product i : products) {
+                ProductVO productVO = new ProductVO();
+                productVO.setProductId(i.getProductId());
+                productVO.setName(i.getName());
+                productVO.setPrice(i.getPrice());
+                productVO.setImage(i.getImage());
+                response.add(productVO);
+            }
         } catch (Exception e) {
             throw e;
         }
-        return products;
+        return response;
     }
-    
+
+    @Override
+    public List<ProductVO> getForPaging(Integer currentPage, Integer perPage) throws Exception {
+        List<ProductVO> response = new ArrayList<>();
+        Integer page = currentPage == 0 ? 0 : (currentPage - 1) * perPage;
+        System.out.println(page);
+        try {
+            List<Product> productsDB = productDao.findPaging(page, perPage);
+            for (Product i : productsDB) {
+                ProductVO productVO = new ProductVO();
+                productVO.setProductId(i.getProductId());
+                productVO.setName(i.getName());
+                productVO.setPrice(i.getPrice());
+                productVO.setImage(i.getImage());
+                response.add(productVO);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return response;
+    }
+
     @Override
     public ProductResponse addProduct(ProductRequest request) throws Exception {
         Inventory inventory = new Inventory();

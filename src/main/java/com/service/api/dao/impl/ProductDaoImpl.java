@@ -26,7 +26,7 @@ import javax.xml.crypto.Data;
 public class ProductDaoImpl implements ProductDao {
 
     @Autowired
-    private JdbcTemplate JdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     private final String TABLE = "product";
 
@@ -40,7 +40,7 @@ public class ProductDaoImpl implements ProductDao {
     private final String PRICE = "price";
     private final String IMAGE = "image";
 
-    private RowMapper<Product> ROW_MAPPER = (ResultSet result, int rowNum) -> {
+    private final RowMapper<Product> ROW_MAPPER = (ResultSet result, int rowNum) -> {
         Product product = new Product();
         product.setCreateDate(result.getTimestamp(CREATE_DATE));
         product.setCreateBy(result.getString(CREATE_BY));
@@ -62,7 +62,25 @@ public class ProductDaoImpl implements ProductDao {
         List<Product> products = new ArrayList<>();
         try {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE_0_EQUAL_0);
-            products = JdbcTemplate.query(sql.toString(),ROW_MAPPER);
+            products = jdbcTemplate.query(sql.toString(),ROW_MAPPER);
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> findPaging(Integer currentPage, Integer perPage) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        List<Product> products = new ArrayList<>();
+        try {
+            sql.append(" select * from ").append(TABLE)
+                    .append(DatabaseConstant.ORDER_BY).append(PRODUCT_ID)
+                    .append(" limit ").append(DatabaseConstant.SIGN_QUESTION_MARK)
+                    .append(" offset ").append(DatabaseConstant.SIGN_QUESTION_MARK);
+            products = jdbcTemplate.query(sql.toString(), ROW_MAPPER, perPage, currentPage);
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
@@ -100,7 +118,7 @@ public class ProductDaoImpl implements ProductDao {
             parameters.add(insertObject.getPrice());
             parameters.add(insertObject.getImage());
 
-            JdbcTemplate.update(sql.toString(), parameters.toArray());
+            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
@@ -130,7 +148,7 @@ public class ProductDaoImpl implements ProductDao {
             parameters.add(updateObject.getImage());
             parameters.add(updateObject.getName());
 
-            JdbcTemplate.update(sql.toString(), parameters.toArray());
+            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
@@ -143,7 +161,7 @@ public class ProductDaoImpl implements ProductDao {
         StringBuilder sql = new StringBuilder();
         try{
             sql.append(" delete from ").append(TABLE).append(DatabaseConstant.WHERE).append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
-            JdbcTemplate.update(sql.toString(),name);
+            jdbcTemplate.update(sql.toString(),name);
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
@@ -160,7 +178,7 @@ public class ProductDaoImpl implements ProductDao {
         try {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE)
                     .append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
-            product = JdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, name);
+            product = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, name);
         } catch (Exception e) {
             throw e;
         }
