@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author Chakkapong
  */
@@ -21,6 +23,12 @@ public class InventoryController {
 
     @PostMapping("/update")
     public Object updateInventory(@RequestBody InventoryRequest request) throws Exception {
+        InventoryResponse response = inventoryService.updateInventory(request);
+        return response;
+    }
+
+    @PostMapping("/confirm")
+    public Object updateInventory(@RequestBody List<InventoryRequest> request) throws Exception {
         InventoryResponse response = inventoryService.updateInventory(request);
         return response;
     }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Chakkapong
@@ -43,6 +44,38 @@ public class InventoryServiceImpl implements InventoryService {
             response.setProductId(request.getId());
             response.setSuccess(false);
             response.setMessage("Error while update inventory.");
+        }
+        return response;
+    }
+
+    @Override
+    public InventoryResponse updateInventory(List<InventoryRequest> request) throws Exception {
+        InventoryResponse response = new InventoryResponse();
+        Date currentDate = new Date();
+        try {
+            for (InventoryRequest i : request) {
+                Inventory inventoryDB = inventoryDao.findById(i.getId());
+                if(i.getQuantity() > inventoryDB.getQuantity()) {
+                    response.setMessage("สินค้าไม่เพียงพอ โปรดตรวจสอบ");
+                    response.setSuccess(false);
+                    response.setProductId(i.getId());
+                    return response;
+                } else {
+                    Integer toUpdate = inventoryDB.getQuantity() - i.getQuantity();
+                    Inventory updateObject = new Inventory();
+                    updateObject.setUpdateDate(currentDate);
+                    updateObject.setUpdateBy("admin");
+                    updateObject.setProductId(i.getId());
+                    updateObject.setQuantity(toUpdate);
+                    inventoryDao.update(updateObject);
+
+                    response.setProductId(null);
+                    response.setSuccess(true);
+                    response.setMessage("ชำระเงินเสร็จสิ้น");
+                }
+            }
+        } catch (Exception e) {
+            throw e;
         }
         return response;
     }
