@@ -10,9 +10,16 @@ import com.service.api.model.request.UpdateProductRequest;
 import com.service.api.model.response.ProductResponse;
 import com.service.api.model.response.UpdateProductResponse;
 import com.service.api.service.ProductService;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -57,4 +64,43 @@ public class ProductController extends ProductControllerValidator {
         UpdateProductResponse response = productService.updateProduct(request);
         return response;
     }
+
+    @GetMapping("/products/download")
+    public void downloadProduct(HttpServletResponse response) throws Exception {
+        List<ProductVO> data = productService.getAll();
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            writeExcelFile(workbook, data, "All Products");
+            response.setHeader("Content-disposition", "attachment; filename=" + "products.csv");
+            workbook.write(response.getOutputStream());
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private void writeExcelFile(Workbook workbook, List<ProductVO> list, String sheetName) throws Exception {
+        try {
+
+            Sheet sheet = workbook.createSheet(sheetName);
+            Row header = sheet.createRow(0);
+            header.createCell(0).setCellValue("No.");
+            header.createCell(1).setCellValue("Product ID");
+            header.createCell(2).setCellValue("Product NAME");
+            header.createCell(3).setCellValue("Product PRICE");
+            header.createCell(4).setCellValue("Product IMAGE");
+            int rowNum = 1;
+            int idx = 0;
+            for (ProductVO i : list) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(idx++);
+                row.createCell(1).setCellValue(i.getProductId());
+                row.createCell(2).setCellValue(i.getName());
+                row.createCell(3).setCellValue(i.getPrice());
+                row.createCell(4).setCellValue(i.getImage());
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 }
