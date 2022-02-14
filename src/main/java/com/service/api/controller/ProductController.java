@@ -84,10 +84,10 @@ public class ProductController extends ProductControllerValidator {
             Sheet sheet = workbook.createSheet(sheetName);
             Row header = sheet.createRow(0);
             header.createCell(0).setCellValue("No.");
-            header.createCell(1).setCellValue("Product ID");
-            header.createCell(2).setCellValue("Product NAME");
-            header.createCell(3).setCellValue("Product PRICE");
-            header.createCell(4).setCellValue("Product IMAGE");
+            header.createCell(1).setCellValue("ID");
+            header.createCell(2).setCellValue("NAME");
+            header.createCell(3).setCellValue("PRICE");
+            header.createCell(4).setCellValue("IMAGE");
             int rowNum = 1;
             int idx = 0;
             for (ProductVO i : list) {
