@@ -27,6 +27,7 @@ import java.util.List;
  *
  * @author Chakkapong
  */
+@CrossOrigin( origins = "*")
 @RestController
 public class ProductController extends ProductControllerValidator {
 

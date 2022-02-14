@@ -22,6 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(interceptor)
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/products/download")
-                .excludePathPatterns("/create-user");
+                .excludePathPatterns("/create-user")
+                .excludePathPatterns("/products/page");
     }
 }
