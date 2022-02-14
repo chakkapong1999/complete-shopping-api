@@ -70,14 +70,23 @@ public class UserDaoImpl implements UserDao {
         ArrayList<Object> parameters = new ArrayList<>();
         try {
             //setup column
-            sql.append(" insert into ").append(TABLE).append(" (")
-                    .append(CREATE_DATE).append(DatabaseConstant.SIGN_COMMA)
-                    .append(CREATE_BY).append(DatabaseConstant.SIGN_COMMA);
-
-            sql.append(USERNAME).append(DatabaseConstant.SIGN_COMMA)
-                    .append(PASSWORD)
-                    .append(")");
-
+            sql.append(" insert into ").append(TABLE).append(" (");
+            if(insertObject.getCreateDate() != null) {
+                sql.append(CREATE_DATE).append(DatabaseConstant.SIGN_COMMA);
+                parameters.add(insertObject.getCreateDate());
+            }
+            if(insertObject.getCreateBy() != null) {
+                sql.append(CREATE_BY).append(DatabaseConstant.SIGN_COMMA);
+                parameters.add(insertObject.getCreateBy());
+            }
+            if(insertObject.getUsername() != null) {
+                sql.append(USERNAME).append(DatabaseConstant.SIGN_COMMA);
+                parameters.add(insertObject.getUsername());
+            }
+            if(insertObject.getPassword() != null) {
+                sql.append(PASSWORD).append(")");
+                parameters.add(insertObject.getPassword());
+            }
             //value;
             sql.append(" values ").append(" ( ")
                     .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
@@ -86,12 +95,7 @@ public class UserDaoImpl implements UserDao {
                     .append(DatabaseConstant.SIGN_QUESTION_MARK)
                     .append(")");
 
-            parameters.add(insertObject.getCreateDate());
-            parameters.add(insertObject.getCreateBy());
-            parameters.add(insertObject.getUsername());
-            parameters.add(insertObject.getPassword());
-
-            jdbcTemplate.update(sql.toString(), parameters.toArray());
+//            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {

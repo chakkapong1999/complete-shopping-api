@@ -8,6 +8,7 @@ import com.service.api.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class InventoryServiceImpl implements InventoryService {
     private InventoryDao inventoryDao;
 
     @Override
-    public InventoryResponse updateInventory(InventoryRequest request) throws Exception {
+    public InventoryResponse addInventory(InventoryRequest request) throws Exception {
         InventoryResponse response = new InventoryResponse();
         Inventory updateInventory = new Inventory();
         Date currentDate = new Date();

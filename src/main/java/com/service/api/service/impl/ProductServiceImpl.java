@@ -57,7 +57,6 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductVO> getForPaging(Integer currentPage, Integer perPage) throws Exception {
         List<ProductVO> response = new ArrayList<>();
         Integer page = currentPage == 0 ? 0 : (currentPage - 1) * perPage;
-        System.out.println(page);
         try {
             List<Product> productsDB = productDao.findPaging(page, perPage);
             for (Product i : productsDB) {

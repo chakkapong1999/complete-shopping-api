@@ -9,6 +9,6 @@ import java.util.List;
  * @author Chakkapong
  */
 public interface InventoryService {
-    InventoryResponse updateInventory(InventoryRequest request) throws Exception;
+    InventoryResponse addInventory(InventoryRequest request) throws Exception;
     InventoryResponse updateInventory(List<InventoryRequest> request) throws Exception;
 }

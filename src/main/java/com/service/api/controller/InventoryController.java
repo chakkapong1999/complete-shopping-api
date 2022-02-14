@@ -23,7 +23,7 @@ public class InventoryController {
 
     @PostMapping("/update")
     public Object updateInventory(@RequestBody InventoryRequest request) throws Exception {
-        InventoryResponse response = inventoryService.updateInventory(request);
+        InventoryResponse response = inventoryService.addInventory(request);
         return response;
     }
 
