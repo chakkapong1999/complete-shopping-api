@@ -7,6 +7,7 @@ package com.service.api.controller;
 import com.service.api.domain.vo.ProductVO;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
+import com.service.api.model.response.ProductPagingResponse;
 import com.service.api.model.response.ProductResponse;
 import com.service.api.model.response.UpdateProductResponse;
 import com.service.api.service.ProductService;
@@ -33,8 +34,8 @@ public class ProductController extends ProductControllerValidator {
     private ProductService productService;
 
     @GetMapping("/products/page")
-    public List<ProductVO> getForPaging(@RequestParam (value = "current") Integer currentPage, @RequestParam (value = "limit" ,defaultValue = "8") Integer perPage) throws Exception {
-        List<ProductVO> response = productService.getForPaging(currentPage,perPage);
+    public ProductPagingResponse getForPaging(@RequestParam (value = "current") Integer currentPage, @RequestParam (value = "limit" ,defaultValue = "8") Integer perPage) throws Exception {
+        ProductPagingResponse response = productService.getForPaging(currentPage,perPage);
         return response;
     }
 

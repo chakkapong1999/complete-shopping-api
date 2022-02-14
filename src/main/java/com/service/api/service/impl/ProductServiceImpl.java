@@ -11,6 +11,7 @@ import com.service.api.domain.Product;
 import com.service.api.domain.vo.ProductVO;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.model.request.UpdateProductRequest;
+import com.service.api.model.response.ProductPagingResponse;
 import com.service.api.model.response.ProductResponse;
 import com.service.api.model.response.UpdateProductResponse;
 import com.service.api.service.ProductService;
@@ -54,19 +55,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductVO> getForPaging(Integer currentPage, Integer perPage) throws Exception {
-        List<ProductVO> response = new ArrayList<>();
+    public ProductPagingResponse getForPaging(Integer currentPage, Integer perPage) throws Exception {
+        ProductPagingResponse response = new ProductPagingResponse();
+        List<ProductVO> products = new ArrayList<>();
         Integer page = currentPage == 0 ? 0 : (currentPage - 1) * perPage;
         try {
             List<Product> productsDB = productDao.findPaging(page, perPage);
+            int count = productDao.count();
             for (Product i : productsDB) {
                 ProductVO productVO = new ProductVO();
                 productVO.setProductId(i.getProductId());
                 productVO.setName(i.getName());
                 productVO.setPrice(i.getPrice());
                 productVO.setImage(i.getImage());
-                response.add(productVO);
+                products.add(productVO);
             }
+            response.setTotalRow(count);
+            response.setResult(products);
         } catch (Exception e) {
             throw e;
         }

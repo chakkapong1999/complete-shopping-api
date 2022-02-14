@@ -172,6 +172,21 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public int count() throws Exception {
+        int count;
+        StringBuilder sql = new StringBuilder();
+        try {
+            sql.append(" select count(*) from ").append(TABLE);
+            count = jdbcTemplate.queryForObject(sql.toString(), Integer.class);
+        } catch (DataAccessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+        return count;
+    }
+
+    @Override
     public Product findByName(String name) throws Exception {
         Product product = new Product();
         StringBuilder sql = new StringBuilder();

@@ -19,8 +19,5 @@ public interface ProductDao {
     void insert (Product insertObject) throws Exception;
     void update (Product updateObject) throws Exception;
     void delete (String name) throws Exception;
-    //pagination
-    /*
-     * SELECT * FROM table order by user_id limit 8 offset ((page -1) * limit);
-     * */
+    int count() throws Exception;
 }
