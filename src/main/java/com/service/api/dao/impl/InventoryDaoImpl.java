@@ -68,17 +68,19 @@ public class InventoryDaoImpl implements InventoryDao {
         ArrayList<Object> parameters = new ArrayList<>();
 
         try {
-            sql.append(" update ").append(TABLE).append(" set ")
-                    .append(UPDATE_DATE).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
-                    .append(UPDATE_BY).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
-                    .append(QUANTITY).append(DatabaseConstant.EQUAL_QUESTION_MARK)
-                    .append(DatabaseConstant.WHERE)
-                    .append(ID).append(DatabaseConstant.EQUAL_QUESTION_MARK);
+            if (updateObject != null) {
+                sql.append(" update ").append(TABLE).append(" set ")
+                        .append(UPDATE_DATE).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                        .append(UPDATE_BY).append(DatabaseConstant.EQUAL_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                        .append(QUANTITY).append(DatabaseConstant.EQUAL_QUESTION_MARK)
+                        .append(DatabaseConstant.WHERE)
+                        .append(ID).append(DatabaseConstant.EQUAL_QUESTION_MARK);
 
-            parameters.add(updateObject.getUpdateDate());
-            parameters.add(updateObject.getUpdateBy());
-            parameters.add(updateObject.getQuantity());
-            parameters.add(updateObject.getProductId());
+                parameters.add(updateObject.getUpdateDate());
+                parameters.add(updateObject.getUpdateBy());
+                parameters.add(updateObject.getQuantity());
+                parameters.add(updateObject.getProductId());
+            }
 
             jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
@@ -93,25 +95,27 @@ public class InventoryDaoImpl implements InventoryDao {
         StringBuilder sql = new StringBuilder();
         ArrayList<Object> parameters = new ArrayList<>();
         try {
-            sql.append(" insert into ").append(TABLE).append(" (")
+            if(insertObject != null) {
+                sql.append(" insert into ").append(TABLE).append(" (")
                     .append(CREATE_DATE).append(DatabaseConstant.SIGN_COMMA)
-                    .append(CREATE_BY).append(DatabaseConstant.SIGN_COMMA)
-                    .append(ID).append(DatabaseConstant.SIGN_COMMA)
-                    .append(QUANTITY).append(")");
+                        .append(CREATE_BY).append(DatabaseConstant.SIGN_COMMA)
+                        .append(ID).append(DatabaseConstant.SIGN_COMMA)
+                        .append(QUANTITY).append(")");
 
-            //values
-            sql.append(" values ")
-                    .append(" ( ")
-                    .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
-                    .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
-                    .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
-                    .append(DatabaseConstant.SIGN_QUESTION_MARK)
-                    .append(")");
+                //values
+                sql.append(" values ")
+                        .append(" ( ")
+                        .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                        .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                        .append(DatabaseConstant.SIGN_QUESTION_MARK).append(DatabaseConstant.SIGN_COMMA)
+                        .append(DatabaseConstant.SIGN_QUESTION_MARK)
+                        .append(")");
 
-            parameters.add(insertObject.getCreateDate());
-            parameters.add(insertObject.getCreateBy());
-            parameters.add(insertObject.getProductId());
-            parameters.add(insertObject.getQuantity());
+                parameters.add(insertObject.getCreateDate());
+                parameters.add(insertObject.getCreateBy());
+                parameters.add(insertObject.getProductId());
+                parameters.add(insertObject.getQuantity());
+            }
 
             jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {

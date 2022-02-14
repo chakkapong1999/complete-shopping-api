@@ -139,7 +139,7 @@ public class ProductDaoImpl implements ProductDao {
                     .append(IMAGE).append(DatabaseConstant.EQUAL_QUESTION_MARK)
                     .append(DatabaseConstant.WHERE)
                     .append(NAME)
-                    .append(DatabaseConstant.EQUAL_QUESTION_MARK);;
+                    .append(DatabaseConstant.EQUAL_QUESTION_MARK);
 
             parameters.add(updateObject.getUpdateDate());
             parameters.add(updateObject.getUpdateBy());

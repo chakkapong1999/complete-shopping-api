@@ -30,17 +30,25 @@ public class LoginServiceImpl implements LoginService {
         User user;
         try {
             user = userDao.findByUsername(request.getUsername());
-            if(bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
-                response.setSuccess(Boolean.TRUE);
-                response.setUsername(request.getUsername());
-                response.setToken(generateToken(user));
-                response.setMessage("Login Success");
+            if (null != user) {
+                if(bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
+                    response.setSuccess(Boolean.TRUE);
+                    response.setUsername(request.getUsername());
+                    response.setToken(generateToken(user));
+                    response.setMessage("Login Success");
+                } else {
+                    response.setSuccess(Boolean.FALSE);
+                    response.setUsername(request.getUsername());
+                    response.setToken("");
+                    response.setMessage("Invalid Password");
+                }
             } else {
-                response.setSuccess(Boolean.FALSE);
+                response.setMessage("No username found.");
+                response.setSuccess(false);
                 response.setUsername(request.getUsername());
                 response.setToken("");
-                response.setMessage("Invalid Password");
             }
+
         } catch (Exception e) {
             throw e;
         }
