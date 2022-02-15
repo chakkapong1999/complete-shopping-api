@@ -5,6 +5,7 @@
 package com.service.api.dao.impl;
 
 import com.service.api.constant.DatabaseConstant;
+import com.service.api.constant.ExceptionConstant;
 import com.service.api.dao.ProductDao;
 import com.service.api.domain.Product;
 import java.sql.ResultSet;
@@ -165,7 +166,7 @@ public class ProductDaoImpl implements ProductDao {
             sql.append(" delete from ").append(TABLE).append(DatabaseConstant.WHERE).append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             jdbcTemplate.update(sql.toString(),name);
         } catch (DataAccessException e) {
-            throw new DatabaseException("201");
+            throw new DatabaseException(ExceptionConstant.DATABASE_CANNOT_DELETE);
         } catch (Exception e) {
             throw e;
         }
@@ -197,7 +198,7 @@ public class ProductDaoImpl implements ProductDao {
                     .append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             product = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, name);
         } catch (DataAccessException e) {
-            throw new DatabaseException("200");
+            throw new DatabaseException(ExceptionConstant.DATABASE_NOT_FOUND);
         }
         catch (Exception e) {
             throw e;

@@ -5,6 +5,7 @@
 package com.service.api.dao.impl;
 
 import com.service.api.constant.DatabaseConstant;
+import com.service.api.constant.ExceptionConstant;
 import com.service.api.dao.UserDao;
 import com.service.api.domain.User;
 import java.sql.ResultSet;
@@ -59,7 +60,7 @@ public class UserDaoImpl implements UserDao {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE).append(USERNAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             user = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, username);
         } catch (DataAccessException e) {
-            throw new DatabaseException("200");
+            throw new DatabaseException(ExceptionConstant.DATABASE_NOT_FOUND);
         } catch (Exception e) {
             throw e;
         }

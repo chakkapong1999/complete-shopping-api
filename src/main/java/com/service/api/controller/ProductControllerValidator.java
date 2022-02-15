@@ -5,6 +5,7 @@
 package com.service.api.controller;
 
 import com.service.api.constant.ExceptionConstant;
+import com.service.api.exceptions.ServiceValidation;
 import com.service.api.model.request.ProductRequest;
 import com.service.api.utils.ObjectValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class ProductControllerValidator {
                 || !validator.validateMandatory(request.getPrice().toString())
                 || !validator.validateMandatory(request.getImage())
         ) {
-            throw new Exception(ExceptionConstant.REQUIRED);
+            throw new ServiceValidation(ExceptionConstant.REQUIRED);
         }
     }
 
     protected void deleteProductValidation(ProductRequest request) throws Exception {
         if (!validator.validateMandatory(request.getName())) {
-            throw new Exception(ExceptionConstant.REQUIRED);
+            throw new ServiceValidation(ExceptionConstant.REQUIRED);
         }
     }
 

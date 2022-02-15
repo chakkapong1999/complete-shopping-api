@@ -2,6 +2,7 @@ package com.service.api.exceptionsHandler;
 
 import com.service.api.exceptions.DatabaseException;
 import com.service.api.exceptions.ServiceException;
+import com.service.api.exceptions.ServiceValidation;
 import com.service.api.model.response.ErrorResponse;
 import com.service.api.service.MessageCodeService;
 import com.service.api.utils.DateUtil;
@@ -19,8 +20,6 @@ import java.util.Date;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    //statusCode 100 - 105
 
     @Autowired
     private MessageCodeService messageCodeService;
@@ -45,6 +44,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse handleDatabaseException(DatabaseException exception) throws Exception {
+        return generateResponse(exception);
+    }
+
+    @ExceptionHandler(ServiceValidation.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse handleServiceValidation(ServiceValidation exception) throws Exception {
         return generateResponse(exception);
     }
 }
