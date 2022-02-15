@@ -81,7 +81,6 @@ public class UserServiceImpl implements UserService {
                 response.setMessage("Incorrect Password");
             }
         } catch (Exception e) {
-//            throw new ServiceException("100");
             throw e;
         }
         return response;

@@ -15,9 +15,7 @@ public class MessageCodeServiceImpl implements MessageCodeService {
         String message = null;
 
         try {
-            if (messageCode.equals("100")) {
-                message = "User not found.";
-            } else if (messageCode.equals("200")) {
+            if (messageCode.equals("200")) {
                 message = "Database not found data.";
             } else if (messageCode.equals("201")) {
                 message = "Database can not delete null.";
