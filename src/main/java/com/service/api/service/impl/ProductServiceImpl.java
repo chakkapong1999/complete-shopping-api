@@ -130,9 +130,7 @@ public class ProductServiceImpl implements ProductService {
                 response.setMessage("Update Success");
             }
         } catch (Exception e) {
-            response.setSuccess(Boolean.FALSE);
-            response.setName(request.getName());
-            response.setMessage("Error while update product.");
+            throw e;
         }
         return  response;
     }
@@ -149,9 +147,7 @@ public class ProductServiceImpl implements ProductService {
             response.setName(request.getName());
             response.setSuccess(Boolean.TRUE);
         } catch (Exception e) {
-            response.setMessage("Error while delete product.");
-            response.setName(request.getName());
-            response.setSuccess(Boolean.FALSE);
+            throw e;
         }
         return response;
     }

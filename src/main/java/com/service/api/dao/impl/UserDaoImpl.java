@@ -9,6 +9,8 @@ import com.service.api.dao.UserDao;
 import com.service.api.domain.User;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import com.service.api.exceptions.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -57,7 +59,7 @@ public class UserDaoImpl implements UserDao {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE).append(USERNAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             user = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, username);
         } catch (DataAccessException e) {
-            return null;
+            throw new DatabaseException("200");
         } catch (Exception e) {
             throw e;
         }

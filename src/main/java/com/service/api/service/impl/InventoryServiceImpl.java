@@ -29,7 +29,7 @@ public class InventoryServiceImpl implements InventoryService {
         try {
             Inventory inventory = inventoryDao.findById(request.getId());
             Integer inStock = inventory.getQuantity();
-            Integer toAdd = inStock + request.getQuantity();
+            Integer toAdd = inStock + request.getAmount();
 
             updateInventory.setUpdateDate(currentDate);
             updateInventory.setUpdateBy("admin");
@@ -56,13 +56,13 @@ public class InventoryServiceImpl implements InventoryService {
         try {
             for (InventoryRequest i : request) {
                 Inventory inventoryDB = inventoryDao.findById(i.getId());
-                if(i.getQuantity() > inventoryDB.getQuantity()) {
+                if(i.getAmount() > inventoryDB.getQuantity()) {
                     response.setMessage("สินค้าไม่เพียงพอ โปรดตรวจสอบ");
                     response.setSuccess(false);
                     response.setProductId(i.getId());
                     return response;
                 } else {
-                    Integer toUpdate = inventoryDB.getQuantity() - i.getQuantity();
+                    Integer toUpdate = inventoryDB.getQuantity() - i.getAmount();
                     Inventory updateObject = new Inventory();
                     updateObject.setUpdateDate(currentDate);
                     updateObject.setUpdateBy("admin");

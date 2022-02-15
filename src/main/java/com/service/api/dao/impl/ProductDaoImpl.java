@@ -10,6 +10,8 @@ import com.service.api.domain.Product;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.service.api.exceptions.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -163,7 +165,7 @@ public class ProductDaoImpl implements ProductDao {
             sql.append(" delete from ").append(TABLE).append(DatabaseConstant.WHERE).append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             jdbcTemplate.update(sql.toString(),name);
         } catch (DataAccessException e) {
-            throw e;
+            throw new DatabaseException("201");
         } catch (Exception e) {
             throw e;
         }
@@ -194,7 +196,10 @@ public class ProductDaoImpl implements ProductDao {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE)
                     .append(NAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             product = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, name);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
+            throw new DatabaseException("200");
+        }
+        catch (Exception e) {
             throw e;
         }
         return product;
