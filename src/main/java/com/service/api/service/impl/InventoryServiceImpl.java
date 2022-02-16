@@ -2,6 +2,7 @@ package com.service.api.service.impl;
 
 import com.service.api.dao.InventoryDao;
 import com.service.api.domain.Inventory;
+import com.service.api.domain.vo.InventoryVO;
 import com.service.api.model.request.InventoryRequest;
 import com.service.api.model.response.InventoryResponse;
 import com.service.api.service.InventoryService;
@@ -42,9 +43,7 @@ public class InventoryServiceImpl implements InventoryService {
             response.setMessage("Update inventory success.");
             response.setProductId(request.getId());
         } catch (Exception e) {
-            response.setProductId(request.getId());
-            response.setSuccess(false);
-            response.setMessage("Error while update inventory.");
+            throw e;
         }
         return response;
     }
@@ -75,6 +74,19 @@ public class InventoryServiceImpl implements InventoryService {
                     response.setMessage("ชำระเงินเสร็จสิ้น");
                 }
             }
+        } catch (Exception e) {
+            throw e;
+        }
+        return response;
+    }
+
+    @Override
+    public InventoryVO findById(Integer id) throws Exception {
+        InventoryVO response = new InventoryVO();
+        try {
+            Inventory inventoryDB = inventoryDao.findById(id);
+            response.setProductId(inventoryDB.getProductId());
+            response.setQuantity(inventoryDB.getQuantity());
         } catch (Exception e) {
             throw e;
         }
