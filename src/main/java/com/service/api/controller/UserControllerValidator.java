@@ -5,6 +5,7 @@
 package com.service.api.controller;
 
 import com.service.api.constant.ExceptionConstant;
+import com.service.api.exceptions.ServiceValidation;
 import com.service.api.model.request.ChangePasswordRequest;
 import com.service.api.model.request.LoginRequest;
 import com.service.api.model.request.UserRequest;
@@ -22,7 +23,7 @@ public class UserControllerValidator {
     protected void createUserValidation(UserRequest request) throws Exception {
         if (!validator.validateMandatory(request.getUsername())
                 || !validator.validateMandatory(request.getPassword())) {
-            throw new Exception(ExceptionConstant.REQUIRED);
+            throw new ServiceValidation(ExceptionConstant.REQUIRED);
         }
     }
 
@@ -30,14 +31,14 @@ public class UserControllerValidator {
         if (!validator.validateMandatory(request.getUsername())
                 || !validator.validateMandatory(request.getPassword())
                 || !validator.validateMandatory(request.getNewPassword())) {
-            throw new Exception(ExceptionConstant.REQUIRED);
+            throw new ServiceValidation(ExceptionConstant.REQUIRED);
         }
 
     }
 
     protected void loginValidation(LoginRequest request) throws Exception {
         if (!validator.validateMandatory(request.getUsername()) || !validator.validateMandatory(request.getPassword())) {
-            throw new Exception(ExceptionConstant.REQUIRED);
+            throw new ServiceValidation(ExceptionConstant.REQUIRED);
         }
     }
 

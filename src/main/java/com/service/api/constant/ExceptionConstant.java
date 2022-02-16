@@ -9,5 +9,7 @@ public class ExceptionConstant {
         throw new IllegalStateException();
     }
 
-    public static final String REQUIRED = "Required field(s) is/are missing.";
+    public static final String DATABASE_NOT_FOUND = "200";
+    public static final String DATABASE_CANNOT_DELETE = "201";
+    public static final String REQUIRED = "300";
 }

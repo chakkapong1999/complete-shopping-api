@@ -6,6 +6,7 @@ package com.service.api.service.impl;
 
 import com.service.api.dao.UserDao;
 import com.service.api.domain.User;
+import com.service.api.exceptions.ServiceException;
 import com.service.api.model.request.ChangePasswordRequest;
 import com.service.api.model.request.UserRequest;
 import com.service.api.model.response.ChangePasswordResponse;

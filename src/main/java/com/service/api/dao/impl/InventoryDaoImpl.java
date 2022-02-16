@@ -1,8 +1,10 @@
 package com.service.api.dao.impl;
 
 import com.service.api.constant.DatabaseConstant;
+import com.service.api.constant.ExceptionConstant;
 import com.service.api.dao.InventoryDao;
 import com.service.api.domain.Inventory;
+import com.service.api.exceptions.DatabaseException;
 import com.service.api.model.request.InventoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -55,7 +57,7 @@ public class InventoryDaoImpl implements InventoryDao {
                     .append(ID).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             inventory = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, id);
         } catch (DataAccessException e) {
-            throw e;
+            throw new DatabaseException(ExceptionConstant.DATABASE_NOT_FOUND);
         } catch (Exception e) {
             throw e;
         }
@@ -137,7 +139,7 @@ public class InventoryDaoImpl implements InventoryDao {
 
             jdbcTemplate.update(sql.toString(), id);
         } catch (DataAccessException e) {
-            throw e;
+            throw new DatabaseException(ExceptionConstant.DATABASE_CANNOT_DELETE);
         } catch (Exception e) {
             throw e;
         }

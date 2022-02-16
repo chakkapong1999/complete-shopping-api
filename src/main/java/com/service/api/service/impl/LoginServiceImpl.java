@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author Chakkapong
  */
@@ -22,6 +24,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
+
+    private final long EXP_TIME = 60 * 60 * 1000;
 
     @Override
     public LoginResponse login(LoginRequest request) throws Exception {
@@ -58,9 +62,12 @@ public class LoginServiceImpl implements LoginService {
     private String generateToken(User user) throws Exception{
         String token = "";
         try {
+            Date now = new Date();
+            long exp = now.getTime() + EXP_TIME;
             token = JWT.create()
                     .withClaim("userId", user.getUserID())
                     .withClaim("username", user.getUsername())
+                    .withExpiresAt(new Date(exp))
                     .sign(Algorithm.HMAC256(SECRET_KEY));
         } catch (Exception e) {
             throw e;
