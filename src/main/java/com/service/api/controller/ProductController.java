@@ -29,45 +29,46 @@ import java.util.List;
  */
 @CrossOrigin( origins = "*")
 @RestController
+@RequestMapping("/products")
 public class ProductController extends ProductControllerValidator {
 
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products/page")
+    @GetMapping("/page")
     public ProductPagingResponse getForPaging(@RequestParam (value = "current") Integer currentPage, @RequestParam (value = "limit" ,defaultValue = "8") Integer perPage) throws Exception {
         ProductPagingResponse response = productService.getForPaging(currentPage,perPage);
         return response;
     }
 
-    @DeleteMapping("/products")
+    @PostMapping("/delete")
     public Object deleteProduct(@RequestBody ProductRequest request) throws Exception {
         deleteProductValidation(request);
         ProductResponse response = productService.deleteProduct(request);
         return response;
     }
 
-    @GetMapping("/products")
+    @GetMapping("")
     public List<ProductVO> findAll() throws Exception {
         List<ProductVO> response = productService.getAll();
         return response;
     }
 
-    @PostMapping("/products")
+    @PostMapping("")
     public Object addProduct(@RequestBody ProductRequest request) throws Exception {
         productValidation(request);
         ProductResponse response = productService.addProduct(request);
         return response;
     }
 
-    @PutMapping("/products")
+    @PutMapping("")
     public Object updateProduct(@RequestBody UpdateProductRequest request) throws Exception {
         productValidation(request);
         UpdateProductResponse response = productService.updateProduct(request);
         return response;
     }
 
-    @GetMapping("/products/download")
+    @GetMapping("/download")
     public void downloadProduct(HttpServletResponse response) throws Exception {
         List<ProductVO> data = productService.getAll();
         try {
