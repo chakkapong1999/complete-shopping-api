@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao {
             sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE).append(USERNAME).append(DatabaseConstant.EQUAL_QUESTION_MARK);
             user = jdbcTemplate.queryForObject(sql.toString(), ROW_MAPPER, username);
         } catch (DataAccessException e) {
-            throw new DatabaseException(ExceptionConstant.DATABASE_NOT_FOUND);
+            return null;
         } catch (Exception e) {
             throw e;
         }
@@ -98,7 +98,7 @@ public class UserDaoImpl implements UserDao {
                     .append(DatabaseConstant.SIGN_QUESTION_MARK)
                     .append(")");
 
-//            jdbcTemplate.update(sql.toString(), parameters.toArray());
+            jdbcTemplate.update(sql.toString(), parameters.toArray());
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
