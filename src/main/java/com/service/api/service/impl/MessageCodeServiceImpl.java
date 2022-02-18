@@ -25,6 +25,8 @@ public class MessageCodeServiceImpl implements MessageCodeService {
                 message = "Required field(s) is/are missing.";
             } else if (messageCode.equals(ExceptionConstant.TOKEN_EXPIRED)) {
                 message = "Token is expired.";
+            } else if (messageCode.equals(ExceptionConstant.TOKEN_NOT_FOUND)) {
+                message = "Token is not found.";
             } else {
                 message = "i don't know.";
             }
