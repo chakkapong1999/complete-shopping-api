@@ -7,6 +7,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Chakkapong
  */
@@ -17,12 +21,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private Interceptor interceptor;
 
+    List<String> excludePath = Arrays.asList(
+            "/login",
+            "/products/download",
+            "/create-user",
+            "/products/page"
+    );
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor)
-                .excludePathPatterns("/login")
-                .excludePathPatterns("/products/download")
-                .excludePathPatterns("/create-user")
-                .excludePathPatterns("/products/page");
+        registry.addInterceptor(interceptor).excludePathPatterns(excludePath);
     }
 }

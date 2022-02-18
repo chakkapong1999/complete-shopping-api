@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.service.api.constant.ExceptionConstant;
+import com.service.api.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -46,7 +48,7 @@ public class Interceptor implements HandlerInterceptor {
             } catch (JWTDecodeException e) {
                 return false;
             } catch (JWTVerificationException e) {
-                return false;
+                throw new ServiceException(ExceptionConstant.TOKEN_EXPIRED);
             }
         }
 

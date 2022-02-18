@@ -23,6 +23,8 @@ public class MessageCodeServiceImpl implements MessageCodeService {
                 message = "Database can not delete null.";
             } else if (messageCode.equals(ExceptionConstant.REQUIRED)) {
                 message = "Required field(s) is/are missing.";
+            } else if (messageCode.equals(ExceptionConstant.TOKEN_EXPIRED)) {
+                message = "Token is expired.";
             } else {
                 message = "i don't know.";
             }

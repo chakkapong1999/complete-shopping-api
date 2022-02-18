@@ -1,4 +1,4 @@
-package com.service.api.exceptionsHandler;
+package com.service.api.exceptionHandler;
 
 import com.service.api.exceptions.DatabaseException;
 import com.service.api.exceptions.ServiceException;

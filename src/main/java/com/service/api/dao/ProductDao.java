@@ -5,6 +5,8 @@
 package com.service.api.dao;
 
 import com.service.api.domain.Product;
+import com.service.api.domain.vo.ProductVO;
+
 import java.util.List;
 
 /**
@@ -13,8 +15,8 @@ import java.util.List;
  */
 public interface ProductDao {
     
-    List<Product> findAll() throws Exception;
-    List<Product> findPaging(Integer currentPage, Integer perPage) throws Exception;
+    List<ProductVO> findAll() throws Exception;
+    List<ProductVO> findPaging(Integer currentPage, Integer perPage) throws Exception;
     Product findByName(String name) throws Exception;
     void insert (Product insertObject) throws Exception;
     void update (Product updateObject) throws Exception;
