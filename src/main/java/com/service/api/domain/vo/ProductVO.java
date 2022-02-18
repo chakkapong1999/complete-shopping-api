@@ -8,6 +8,7 @@ public class ProductVO {
     private String name;
     private Integer price;
     private String image;
+    private Integer quantity;
 
     @Override
     public String toString() {
@@ -16,6 +17,7 @@ public class ProductVO {
         sb.append(", name='").append(name).append('\'');
         sb.append(", price=").append(price);
         sb.append(", image='").append(image).append('\'');
+        sb.append(", quantity=").append(quantity);
         sb.append('}');
         return sb.toString();
     }
@@ -50,5 +52,13 @@ public class ProductVO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

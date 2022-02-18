@@ -39,13 +39,14 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductVO> getAll() throws Exception {
         List<ProductVO> response = new ArrayList<>();
         try{
-            List<Product> products = productDao.findAll();
-            for (Product i : products) {
+            List<ProductVO> productsVODB = productDao.findAll();
+            for (ProductVO i : productsVODB) {
                 ProductVO productVO = new ProductVO();
                 productVO.setProductId(i.getProductId());
                 productVO.setName(i.getName());
                 productVO.setPrice(i.getPrice());
                 productVO.setImage(i.getImage());
+                productVO.setQuantity(i.getQuantity());
                 response.add(productVO);
             }
         } catch (Exception e) {
@@ -60,14 +61,15 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVO> products = new ArrayList<>();
         Integer page = currentPage == 0 ? 0 : (currentPage - 1) * perPage;
         try {
-            List<Product> productsDB = productDao.findPaging(page, perPage);
+            List<ProductVO> productsDB = productDao.findPaging(page, perPage);
             int count = productDao.count();
-            for (Product i : productsDB) {
+            for (ProductVO i : productsDB) {
                 ProductVO productVO = new ProductVO();
                 productVO.setProductId(i.getProductId());
                 productVO.setName(i.getName());
                 productVO.setPrice(i.getPrice());
                 productVO.setImage(i.getImage());
+                productVO.setQuantity(i.getQuantity());
                 products.add(productVO);
             }
             response.setTotalRow(count);

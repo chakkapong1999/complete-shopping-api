@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.service.api.domain.vo.ProductVO;
 import com.service.api.exceptions.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -43,6 +44,8 @@ public class ProductDaoImpl implements ProductDao {
     private final String PRICE = "price";
     private final String IMAGE = "image";
 
+    private final String QUANTITY = "quantity";
+
     private final RowMapper<Product> ROW_MAPPER = (ResultSet result, int rowNum) -> {
         Product product = new Product();
         product.setCreateDate(result.getTimestamp(CREATE_DATE));
@@ -58,38 +61,53 @@ public class ProductDaoImpl implements ProductDao {
         return product;
     };
 
-    @Override
+    private final RowMapper<ProductVO> ROW_MAPPER_VO = (ResultSet result, int rowNum) -> {
+        ProductVO productVO = new ProductVO();
+        productVO.setProductId(result.getInt(PRODUCT_ID));
+        productVO.setName(result.getString(NAME));
+        productVO.setPrice(result.getInt(PRICE));
+        productVO.setImage(result.getString(IMAGE));
+        productVO.setQuantity(result.getInt(QUANTITY));
+        return productVO;
+    };
 
-    public List<Product> findAll() throws Exception {
+    @Override
+    public List<ProductVO> findAll() throws Exception {
         StringBuilder sql = new StringBuilder();
-        List<Product> products = new ArrayList<>();
+        List<ProductVO> productVO = new ArrayList<>();
         try {
-            sql.append(" select * from ").append(TABLE).append(DatabaseConstant.WHERE_0_EQUAL_0);
-            products = jdbcTemplate.query(sql.toString(),ROW_MAPPER);
+            sql.append(DatabaseConstant.SELECT)
+                    .append(" product.product_id, product.name, product.price, product.image, inventory.quantity ")
+                    .append(DatabaseConstant.FROM).append(TABLE).append(" left join inventory ")
+                    .append(" on ").append(" product.product_id = inventory.product_id");
+            productVO = jdbcTemplate.query(sql.toString(), ROW_MAPPER_VO);
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
             throw e;
         }
-        return products;
+        return productVO;
     }
 
     @Override
-    public List<Product> findPaging(Integer currentPage, Integer perPage) throws Exception {
+    public List<ProductVO> findPaging(Integer currentPage, Integer perPage) throws Exception {
         StringBuilder sql = new StringBuilder();
-        List<Product> products = new ArrayList<>();
+        List<ProductVO> productVO = new ArrayList<>();
         try {
-            sql.append(" select * from ").append(TABLE)
-                    .append(DatabaseConstant.ORDER_BY).append(PRODUCT_ID)
+            sql.append(DatabaseConstant.SELECT)
+                    .append(" product.product_id, product.name, product.price, product.image, inventory.quantity ")
+                    .append(DatabaseConstant.FROM).append(TABLE).append(" left join inventory ")
+                    .append(" on ").append(" product.product_id = inventory.product_id")
+                    .append(DatabaseConstant.ORDER_BY).append(PRODUCT_ID).append(DatabaseConstant.ASC)
                     .append(" limit ").append(DatabaseConstant.SIGN_QUESTION_MARK)
                     .append(" offset ").append(DatabaseConstant.SIGN_QUESTION_MARK);
-            products = jdbcTemplate.query(sql.toString(), ROW_MAPPER, perPage, currentPage);
+            productVO = jdbcTemplate.query(sql.toString(), ROW_MAPPER_VO, perPage, currentPage);
         } catch (DataAccessException e) {
             throw e;
         } catch (Exception e) {
             throw e;
         }
-        return products;
+        return productVO;
     }
 
     @Override
