@@ -25,7 +25,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/login",
             "/products/download",
             "/create-user",
-            "/products/page"
+            "/products/page",
+            "/webhook"
     );
 
     @Override

@@ -37,9 +37,9 @@ public class Interceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("Pre handle is calling.");
 
-        if(request.getMethod().equals("OPTIONS")) return true;
+        if (request.getMethod().equals("OPTIONS")) return true;
 
-        if(request.getHeader("Authorization") == null) return false;
+        if (request.getHeader("Authorization") == null) return false;
         else {
             String token = request.getHeader("Authorization");
             String username = request.getHeader("User");
@@ -78,7 +78,7 @@ public class Interceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception{
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         System.out.println("Post handle is calling.");
     }
 

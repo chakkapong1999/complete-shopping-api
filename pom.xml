@@ -64,6 +64,12 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-dialogflow</artifactId>
+            <version>v2beta1-rev15-1.23.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

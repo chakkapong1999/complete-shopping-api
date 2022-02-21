@@ -13,24 +13,21 @@ import com.service.api.model.response.UserResponse;
 import com.service.api.service.LoginService;
 import com.service.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
- *
  * @author Chakkapong
  */
 
-@CrossOrigin( origins = "*")
+@CrossOrigin(origins = "*")
 @RestController
-public class UserController extends UserControllerValidator{
+public class UserController extends UserControllerValidator {
     @Autowired
     private UserService userService;
 
     @Autowired
     private LoginService loginService;
+
 
     @PostMapping("/login")
     public Object login(@RequestBody LoginRequest request) throws Exception {
@@ -40,16 +37,18 @@ public class UserController extends UserControllerValidator{
     }
 
     @PostMapping("/create-user")
-    public Object createUser (@RequestBody UserRequest request) throws Exception {
+    public Object createUser(@RequestBody UserRequest request) throws Exception {
         createUserValidation(request);
         UserResponse response = userService.createUser(request);
         return response;
     }
-    
+
     @PostMapping("/change-password")
     public Object changePassword(@RequestBody ChangePasswordRequest request) throws Exception {
         changePasswordValidation(request);
         ChangePasswordResponse response = userService.changePassword(request);
         return response;
     }
+
+
 }
